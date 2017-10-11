@@ -25,3 +25,6 @@ file -bi test.txt
 for check encodding
 https://chardet.readthedocs.io/en/latest/usage.html#example-using-the-detect-function
 pip install chardet
+
+
+python youtube_subs_parser.py $srcdir $tgtdir

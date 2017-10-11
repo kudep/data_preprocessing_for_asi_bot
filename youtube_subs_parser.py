@@ -6,9 +6,29 @@ from chardet.universaldetector import UniversalDetector
 
 import subtitle_parser
 import filter_function_for_youtube_subs
-import sys
 
-print(sys.argv[1])
-sp = subtitle_parser.SubtitleParser()
-print(sp.check_encoding(sys.argv[1]))
-print(sp.get_substext(sys.argv[1], filter_function_for_youtube_subs.filter_function_ted))
+import sys
+from os import listdir
+from os.path import isfile, join
+
+import progressbar
+
+src_dir = sys.argv[1]
+tgt_dir = sys.argv[2]
+srcfiles = [f for f in listdir(src_dir) if isfile(join(src_dir, f))]
+subpars = subtitle_parser.SubtitleParser()
+bar = progressbar.ProgressBar()
+bar.init()
+for srcfile in bar(srcfiles):
+    if srcfile[-4:] == '.vtt':
+        src = join(src_dir, srcfile)
+        if not subpars.check_encoding(src):
+            print('Encoding fail in file: {}'.format(src))
+            continue
+        #Start parsing and writung into target file
+        tgt = join(tgt_dir, srcfile[:-4] + '.txt')
+        with open(tgt, 'wt') as tgtfile:
+            tgtfile.write(subpars.get_substext(src, filter_function_for_youtube_subs.filter_function_ted))
+    else:
+        print('Postfix fail in file: {}'.format(join(src_dir, srcfile)))
+        continue
