@@ -38,3 +38,25 @@ Start parsing and pretreatment subtitles:
 ```
 python youtube_subs_parser.py $SRCDIR $TGTDIR
 ```
+
+```
+export RD="<BASEDIR>"
+export TOPIC="<TOPICDIR>"
+```
+```
+export SRCDIR="$RD/rawdata/youtube/$TOPIC"
+#export TGTDIR="$RD/preprodata/stage1/youtube/$TOPIC/txt"
+export TGTDIR="$RD/preprodata/stage2/youtube/$TOPIC/txt"
+mkdir -p $TGTDIR
+```
+```
+python youtube_subs_parser.py $SRCDIR $TGTDIR
+```
+```
+export SRCDIR="$RD/preprodata/stage2/youtube/$TOPIC/txt"
+export TGTDIR="$RD/preprodata/stage3/youtube/$TOPIC/txt"
+mkdir -p $TGTDIR
+```
+```
+python assembly_dataset.py $SRCDIR $TGTDIR
+```
