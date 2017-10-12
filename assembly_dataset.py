@@ -22,6 +22,6 @@ manfile = join(tgt_dir, 'train.man')
 
 data_assemb = dataset_assembler.DatasetAssembler(srcfiles)
 
-data_assemb.save_vocab(corvocabfile)
-data_assemb.save_vocab(manvocabfile)
+data_assemb.save_vocab(corvocabfile, max_words = 50000)
+data_assemb.save_vocab(manvocabfile, max_words = 50000)
 data_assemb.save_datasets(corfile,manfile)

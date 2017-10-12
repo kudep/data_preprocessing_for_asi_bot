@@ -29,7 +29,7 @@ def filter_function_ted_for_split_tokens(subs):
         if filtered[-1] in ['.', '?', '!']:
             filtered = filtered + '\n'
         # filtered = re.sub(r"([\w/'+$\s-]+|[^\w/'+$\s-]+)\s*", r"\1 ", filtered)
-        filtered = re.sub(r"([\*\"\'\\\/\|\{\}\[\]\;\:\<\>\,\.\!\?\*\(\)\"\«\»\“\”\@\#\%\$])", r" \1 ", filtered)
+        filtered = re.sub(r"([\*\"\'\\\/\|\{\}\[\]\;\:\<\>\,\.\!\?\*\(\)\"\«\»\“\”\@\#\%\$\„])", r" \1 ", filtered)
         text.append(filtered)
     text = text[1:-2]
     text = re.sub(r' +', ' ', ' '.join(text))
