@@ -15,26 +15,25 @@ youtube-dl command is listed below. For example we may download only Russian non
 youtube-dl --write-sub  --sub-lang ru --skip-download https://www.youtube.com/<same_target>
 
 ```
+## Parsing and pretreatment subtitles
 
+Parsing is performed by the pysrt module.
 ```
 pip install pysrt
 ```
 
-
-chech enc
-http://mindspill.net/computing/linux-notes/determine-and-change-file-character-encoding/
+Addition information about encoding is shown [here](http://mindspill.net/computing/linux-notes/determine-and-change-file-character-encoding/).
+For example:
 ```
 file -bi test.txt
 ```
+Addition information about chardet is shown [here](https://chardet.readthedocs.io/en/latest/usage.html#example-using-the-detect-function). Installation:
 
-
-for check encodding
-https://chardet.readthedocs.io/en/latest/usage.html#example-using-the-detect-function
 ```
 pip install chardet
 ```
 
-
+Start parsing and pretreatment subtitles:
 
 ```
 python youtube_subs_parser.py $SRCDIR $TGTDIR
