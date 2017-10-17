@@ -5,7 +5,7 @@ import pysrt
 from chardet.universaldetector import UniversalDetector
 
 import subtitle_parser
-import filter_function_for_youtube_subs
+import handler_functions
 
 import sys
 from os import listdir
@@ -28,7 +28,7 @@ for srcfile in bar(srcfiles):
         #Start parsing and writung into target file
         tgt = join(tgt_dir, srcfile[:-4] + '.txt')
         with open(tgt, 'wt') as tgtfile:
-            tgtfile.write(subpars.get_substext(src, filter_function_for_youtube_subs.filter_function_ted_for_split_tokens))
+            tgtfile.write(subpars.get_substext(src, handler_functions.filter_function_ted_for_split_tokens))
     else:
         print('Postfix fail in file: {}'.format(join(src_dir, srcfile)))
         continue

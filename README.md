@@ -60,3 +60,11 @@ mkdir -p $TGTDIR
 ```
 python assembly_dataset.py $SRCDIR $TGTDIR
 ```
+
+## Wiki
+
+python WikiExtractor.py -o ../extracted/ --processes 60 ../ruwiki-20171001-pages-articles-multistream.xml.bz2
+
+export SRCDIR="$RD/dataset/wiki/extracted"
+export TGTDIR="$RD/dataset/wiki/tokenized"
+python wiki_handler.py
