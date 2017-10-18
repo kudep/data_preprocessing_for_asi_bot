@@ -63,6 +63,11 @@ python assembly_dataset.py $SRCDIR $TGTDIR
 
 ## Wiki
 
+https://dumps.wikimedia.org/
+
+
+https://github.com/attardi/wikiextractor
+
 python WikiExtractor.py -o ../extracted/ --processes 60 ../ruwiki-20171001-pages-articles-multistream.xml.bz2
 
 export SRCDIR="$RD/dataset/wiki/extracted"

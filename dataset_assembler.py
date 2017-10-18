@@ -18,40 +18,47 @@ class DatasetAssembler():
 
     def _make_data_lines(self):
         self.data_lines = []
+        self.data_stories = []
         print('Make data lines')
         self.bar.init()
         for srcfile in self.bar(self.list_files):
+            story_lines = []
             with open(srcfile, 'rt') as src:
                 for line in src.readlines():
                     self.data_lines.append(line)
+                    story_lines.append(line)
+            self.data_stories.append(story_lines)
 
 
     def save_datasets(self, trainfile, labelfile):
         if self.context_line_length is None:
             self.set_datasets_config()
 
-        context = collections.deque([],self.context_line_length)
-        trains = self.data_lines[:-1]
-        labels = self.data_lines[1:]
-
-        print('Start write into {}'.format(trainfile))
-        self.bar.init()
         with open(trainfile, 'wt') as trainf:
-            for train in self.bar(trains):
-                train = train.split()
-                context.extend(train)
-                text = " ".join(context)
-                text = re.sub(r'\n', ' ', text)
-                text = re.sub(r' +', ' ', text)
-                trainf.write(text + '\n')
+            self.bar.init()
+            print('Start write into {}'.format(trainfile))
+            for story in self.bar(self.data_stories):
+                context = collections.deque([],self.context_line_length)
+                trains = story[:-1]
 
-        print('Start write into {}'.format(labelfile))
-        self.bar.init()
+                for train in trains:
+                    train = train.split()
+                    context.extend(train)
+                    text = " ".join(context)
+                    text = re.sub(r'\n', ' ', text)
+                    text = re.sub(r' +', ' ', text)
+                    trainf.write(text + '\n')
+
         with open(labelfile, 'wt') as labelf:
-            for label in self.bar(labels):
-                text = re.sub(r'\n', ' ', label)
-                text = re.sub(r' +', ' ', text)
-                labelf.write(text + '\n')
+            print('Start write into {}'.format(labelfile))
+            self.bar.init()
+            for story in self.bar(self.data_stories):
+                labels = story[1:]
+                for label in labels:
+                    text = re.sub(r'\n', ' ', label)
+                    text = re.sub(r' +', ' ', text)
+                    labelf.write(text + '\n')
+
 
 
 
