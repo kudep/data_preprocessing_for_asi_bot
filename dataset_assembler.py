@@ -5,6 +5,7 @@
 import progressbar
 import collections
 import re
+import random
 
 __all__ = ['DatasetAssembler']
 class DatasetAssembler():
@@ -58,6 +59,26 @@ class DatasetAssembler():
                     text = re.sub(r'\n', ' ', label)
                     text = re.sub(r' +', ' ', text)
                     labelf.write(text + '\n')
+
+    def save_splited_datasets(self, srcfile, outputfiles, proportions):
+        assert len(outputfiles) == len(proportions), "Lens outputfiles and proportions not equal"
+        with open(srcfile, 'rt') as srcdesc:
+            corpus = srcdesc.readlines()
+
+        # corpus = random.sample(corpus,len(corpus))
+        pr_sum = sum(proportions)
+        ranges = [component/pr_sum*len(corpus) for component in proportions]
+        print(len(corpus))
+        deqindexs = collections.deque([0,0],2)
+        for index, rang in enumerate(ranges):
+            right_border = deqindexs[1] + rang
+            deqindexs.append(right_border)
+            print('Start write into {}'.format(outputfiles[index]))
+            self.bar.init()
+            with open(outputfiles[index], 'wt') as tgtdesc:
+                for line in self.bar(corpus[int(deqindexs[0]):int(deqindexs[1])]):
+                    tgtdesc.write(line)
+
 
 
 
