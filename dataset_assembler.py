@@ -58,6 +58,7 @@ class DatasetAssembler():
                 for label in labels:
                     text = re.sub(r'\n', ' ', label)
                     text = re.sub(r' +', ' ', text)
+                    text = ' '.join(text.strip().split()[:self.context_line_length])
                     labelf.write(text + '\n')
 
     def save_splited_datasets(self, srcfile, outputfiles, proportions):
@@ -83,7 +84,7 @@ class DatasetAssembler():
 
 
 
-    def set_datasets_config(self, context_line_length = 250):
+    def set_datasets_config(self, context_line_length = 70):
         self.context_line_length = context_line_length
 
     def save_vocab(self, vocabfile, tag_list = ["<unk>", "<s>", "</s>"], max_words = None):
