@@ -30,7 +30,7 @@ data_assemb = dataset_assembler.DatasetAssembler(srcfiles)
 
 data_assemb.save_vocab(corvocabfile)
 data_assemb.save_vocab(manvocabfile)
-data_assemb.set_datasets_config(context_line_length = 70)
+data_assemb.set_datasets_config(context_line_length = 140)
 data_assemb.save_datasets(corentire, manentire)
 
 cor_outputfiles = [cortrain, cortest, cordev_test]
