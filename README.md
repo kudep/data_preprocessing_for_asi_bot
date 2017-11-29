@@ -58,7 +58,9 @@ export TGTDIR="$RD/preprodata/stage3/youtube/$TOPIC/txt"
 mkdir -p $TGTDIR
 ```
 ```
-python assembly_dataset.py $SRCDIR $TGTDIR
+python assembly_dataset.py $SRCDIR $TGTDIR; \
+cp -v $SRCDIR/../codes.txt $TGTDIR; \
+cp -v $SRCDIR/../bpeshare.voc $TGTDIR
 ```
 
 ## Wiki

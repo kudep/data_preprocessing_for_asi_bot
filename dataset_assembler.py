@@ -14,6 +14,7 @@ class DatasetAssembler():
         self.data_lines = None
         self.bar = progressbar.ProgressBar()
         self.context_line_length = None
+        self.answer_line_length = None
         self._make_data_lines()
         self.vocab = None
 
@@ -30,10 +31,19 @@ class DatasetAssembler():
                     story_lines.append(line)
             self.data_stories.append(story_lines)
 
+    def get_sub(self, patterns, text):
+        for from_regex, to_regex in patterns:
+            text=re.sub(from_regex, to_regex, text)
+        return text
 
-    def save_datasets(self, trainfile, labelfile):
+
+    def save_datasets(self, trainfile, labelfile, label_patterns = None):
         if self.context_line_length is None:
             self.set_datasets_config()
+        if self.answer_line_length is None:
+            self.set_datasets_config()
+
+
 
         with open(trainfile, 'wt') as trainf:
             self.bar.init()
@@ -49,16 +59,17 @@ class DatasetAssembler():
                     text = re.sub(r'\n', ' ', text)
                     text = re.sub(r' +', ' ', text)
                     trainf.write(text + '\n')
-
         with open(labelfile, 'wt') as labelf:
             print('Start write into {}'.format(labelfile))
             self.bar.init()
             for story in self.bar(self.data_stories):
                 labels = story[1:]
                 for label in labels:
-                    text = re.sub(r'\n', ' ', label)
+                    if label_patterns:
+                        text = self.get_sub(label_patterns, label)
+                    text = re.sub(r'\n', ' ', text)
                     text = re.sub(r' +', ' ', text)
-                    text = ' '.join(text.strip().split()[:self.context_line_length])
+                    text = ' '.join(text.strip().split()[:self.answer_line_length])
                     labelf.write(text + '\n')
 
     def save_splited_datasets(self, srcfile, outputfiles, proportions):
@@ -84,8 +95,11 @@ class DatasetAssembler():
 
 
 
-    def set_datasets_config(self, context_line_length = 70):
+    def set_datasets_config(self, context_line_length = 70, answer_line_length = None):
         self.context_line_length = context_line_length
+        if answer_line_length is None:
+            answer_line_length = context_line_length
+        self.answer_line_length = answer_line_length
 
     def save_vocab(self, vocabfile, tag_list = ["<unk>", "<s>", "</s>"], max_words = None):
         """Process saves vocab into file."""

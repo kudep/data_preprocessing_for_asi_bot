@@ -26,6 +26,9 @@ mantest = join(tgt_dir, 'test.man')
 cordev_test = join(tgt_dir, 'dev_test.cor')
 mandev_test = join(tgt_dir, 'dev_test.man')
 
+if not os.path.exists(tgt_dir):
+    os.makedirs(tgt_dir)
+
 data_assemb = dataset_assembler.DatasetAssembler(srcfiles)
 
 data_assemb.save_vocab(corvocabfile)
